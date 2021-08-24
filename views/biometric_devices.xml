@@ -1,0 +1,62 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="barameg_zk_biometric_attendance.biometric_devices_form_view">
+            <field name="name">biometric_devices_form_view</field>
+            <field name="model">biometric.devices</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button type="object" name="test_device" string="Test Device"/>
+                        <button type="object" name="get_attendance_log" string="get Device"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="ip_address"/>
+                                <field name="port"/>
+                            </group>
+                            <group>
+                                <field name="timezone"/>
+                                <field name="timeout"/>
+                                <field name="password"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="active" widget="boolean_toggle"/>
+                                <field name="force_udp" widget="boolean_toggle"/>
+                                <field name="ommit_ping" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+<!--                        <notebook>-->
+<!--                            <page name="general_properties" string="General Properties">-->
+<!--                                <group>-->
+<!--                                    <group>-->
+
+<!--                                    </group>-->
+<!--                                </group>-->
+<!--                            </page>-->
+<!--                            <page name="notes" string="Notes">-->
+<!--                                <form>-->
+<!--                                    <field name="notes"/>-->
+<!--                                </form>-->
+<!--                            </page>-->
+<!--                        </notebook>-->
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="barameg_zk_biometric_attendance.biometric_devices_tree_view">
+            <field name="name">biometric_devices_tree_view</field>
+            <field name="model">biometric.devices</field>
+            <field name="priority" eval="60"/>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,38 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="barameg_zk_biometric_attendance.device_attendance_form_view">
+            <field name="name">device_attendance_form_view</field>
+            <field name="model">device.attendance</field>
+            <field name="arch" type="xml">
+                <form>
+<!--                    <header>-->
+<!--                        <button type="object" name="test_device" string="Test Device"/>-->
+<!--                        <button type="object" name="get_attendance_log" string="get Device"/>-->
+<!--                    </header>-->
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="device"/>
+                                <field name="employee_code"/>
+                                <field name="timestamp"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="barameg_zk_biometric_attendance.device_attendance_tree_view">
+            <field name="name">device_attendance_tree_view</field>
+            <field name="model">device.attendance</field>
+            <field name="priority" eval="60"/>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="device"/>
+                    <field name="employee_code"/>
+                    <field name="timestamp"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

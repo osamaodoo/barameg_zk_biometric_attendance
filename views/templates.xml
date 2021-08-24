@@ -1,0 +1,12 @@
+<odoo>
+    <data>
+        <template id="assets_backend" name="barameg_zk_biometric_attendance" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/barameg_zk_biometric_attendance/static/src/js/list_controller.js"/>
+                <script type="text/javascript" src="/barameg_zk_biometric_attendance/static/src/js/list_view.js"/>
+            </xpath>
+<!--            <xpath expr="//script[last()]" position="after">-->
+<!--            </xpath>-->
+        </template>
+    </data>
+</odoo>

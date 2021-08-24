@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+        <record id="barameg_zk_biometric_attendance.view_employee_form" model="ir.ui.view">
+            <field name="name">
+                barameg_zk_biometric_attendance.view_employee_form
+            </field>
+            <field name="model">hr.employee</field>
+            <field name="priority" eval="60"/>
+            <field name="inherit_id"
+                   ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="after">
+            	<field name="attendance_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    </data>
+</odoo>

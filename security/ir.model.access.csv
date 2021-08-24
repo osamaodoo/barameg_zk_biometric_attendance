@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+manage_biometric_devices,manage_biometric_devices,barameg_zk_biometric_attendance.model_biometric_devices,base.group_user,1,1,1,1
+manage_device_attendance,manage_device_attendance,barameg_zk_biometric_attendance.model_device_attendance,base.group_user,1,1,1,1
