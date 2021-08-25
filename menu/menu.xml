@@ -4,6 +4,7 @@
 		<!-- menu categories -->
 		<menuitem name="Devices" id="biometric_devices" parent="biometric_attendance_root_menu" action="biometric_devices_action_window" sequence="1"/>
 		<menuitem name="Attendance" id="device_attendance" parent="biometric_attendance_root_menu" action="device_attendance_action_window" sequence="1"/>
+		<menuitem name="Prepared Attendance" id="prepared_attendance" parent="biometric_attendance_root_menu" action="prepared_attendance_action_window" sequence="1"/>
 <!--		<menuitem name="Manage Products" id="manage_salla_products" parent="salla_connector_root_menu" sequence="1"/>-->
 <!--		<menuitem name="Products" id="salla_products" parent="manage_salla_products" action="salla_products_action_window" sequence="1"/>-->
 <!--		<menuitem name="Variants" id="salla_product_variats" parent="manage_salla_products" action="salla_product_variants_action_window" sequence="1"/>-->

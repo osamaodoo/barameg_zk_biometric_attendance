@@ -27,10 +27,12 @@
         'security/ir.model.access.csv',
         'views/biometric_devices.xml',
         'views/device_attendance.xml',
+        'views/prepared_attendance.xml',
         'views/hr_employee.xml',
         'views/templates.xml',
         'actions/biometric_devices.xml',
         'actions/device_attendance.xml',
+        'actions/prepared_attendance.xml',
         'menu/menu.xml',
     ],
     # only loaded in demonstration mode

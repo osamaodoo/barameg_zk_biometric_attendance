@@ -28,27 +28,45 @@ odoo.define('barameg_zk_biometric_attendance.ListController', function (require)
         renderButtons: function($node) {
 
             this._super.apply(this, arguments);
-            console.log('tttttttt')
+            console.log(this.modelName)
             if(this.modelName == 'hr.attendance'){
                 if (this.$buttons) {
                     let import_attendance_button = this.$buttons.find('.o_import_attendance_button');
                     import_attendance_button && import_attendance_button.click(this.proxy('import_attendance')) ;
+                    let prepare_attendance_button = this.$buttons.find('.o_prepare_attendance_button');
+                    prepare_attendance_button.hide()
+
                 }
 
+            }
+            else if(this.modelName == 'prepared.attendance'){
+                if (this.$buttons) {
+                    let prepare_attendance_button = this.$buttons.find('.o_prepare_attendance_button');
+                    prepare_attendance_button && prepare_attendance_button.click(this.proxy('prepare_attendance')) ;
+                    let import_attendance_button = this.$buttons.find('.o_import_attendance_button');
+                    import_attendance_button.hide()
+
+                }
             } else {
                 let import_attendance_button = this.$buttons.find('.o_import_attendance_button');
                 import_attendance_button.hide()
+                let prepare_attendance_button = this.$buttons.find('.o_prepare_attendance_button');
+                prepare_attendance_button.hide()
             }
 
         },
 
         import_attendance: function () {
-
-            console.log(this)
-            return this._rpc({model: 'hr.attendance', method: 'import_attendance'})
-
+            if(this.modelName == 'hr.attendance'){
+                return this._rpc({model: 'hr.attendance', method: 'import_attendance'})
+            }
             //implement your click logic here
 
+        },
+        prepare_attendance: function(){
+            if(this.modelName == 'prepared.attendance'){
+                return this._rpc({model: 'prepared.attendance', method: 'prepare_attendance'})
+            }
         }
     })
 
