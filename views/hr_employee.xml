@@ -11,6 +11,8 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='user_id']" position="after">
             	<field name="attendance_id"/>
+            	<field name="biometric_last_check_in"/>
+            	<field name="biometric_last_check_out"/>
             </xpath>
         </field>
     </record>

@@ -18,6 +18,9 @@ class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
     attendance_id = fields.Char(string='Attendance ID')
+    biometric_check_window = fields.Integer(default=5)
+    biometric_last_check_in = fields.Datetime()
+    biometric_last_check_out = fields.Datetime()
 
 
 class BiometricDevices(models.Model):
@@ -96,14 +99,21 @@ class BiometricDevices(models.Model):
             return notification
         else:
             count = 0
+            attendances = str(attendances).split('<Attendance>:')
             for attendance in attendances:
-                log = self.env['device.attendance']
-                record_exist = log.search([('employee_code', '=', attendance.uid), ('timestamp', '=', attendance.timestamp)])
-                if not record_exist:
+                try:
+                    uid = attendance.split(' : ')[0].strip()
+                    timestamp = attendance.split(' : ')[1].split(' (')[0]
+                except:
+                    pass
+                else:
+                    log = self.env['device.attendance']
+                    # record_exist = log.search([('employee_code', '=', uid), ('timestamp', '=', timestamp)])
+                    # if not record_exist:
                     log.create({
                         'device': self.id,
-                        'employee_code': attendance.uid,
-                        'timestamp': attendance.timestamp,
+                        'employee_code': uid,
+                        'timestamp': timestamp,
                         # 'check': attendance.punch
                     })
                     count = count + 1
@@ -131,51 +141,6 @@ class DeviceAttendance(models.Model):
     #     ('out', 'Check-Out'),
     # ])
 
-    def _prepare_attendance(self):
-        employees = self.env['hr.employee'].search([])
-        for employee in employees:
-            if employee.attendance_id:
-                # checked in employee
-                if employee.last_check_in and not employee.last_check_out:
-                    pass
-                    attendances = self.search([('employee_code', '=', employee.attendance_id),('timestamp', '>', employee.last_check_in)])
-                    for attendance in attendances:
-                        diff = attendance.timestamp - employee.last_check_in
-                        print(diff)
-
-                #checked out employee
-                if employee.last_check_out and not employee.last_check_in:
-                    pass
-                if not employee.last_check_in and not employee.last_check_out:
-                    pass
-                    attendances = self.search([('employee_code', '=', employee.attendance_id)])
-                    for attendance in attendances:
-                        self.env['prepare_attendance'].create({
-                            'employee_id': employee.id,
-                            'check_in': attendance.timestamp,
-                        })
-                # attendances = self.search([('employee_code', '=', employee.attendance_id)])
-                # for attendance in attendances:
-                #     if employee.attendance_id == attendance.employee_code:
-                #         prep_attendance = self.env['prepared.attendance']
-                #         checked_before = prep_attendance.search([('employee_id', '=', employee.id)])
-                #         if checked_before:
-                #             checked_in = prep_attendance.search_read(
-                #                 [('employee_id', '=', employee.id),('check_in', '!=', False),('check_out', '=', False)]
-                #             )
-                #             if checked_in:
-                #                 checked_in.write({
-                #                     'check_out': attendance.timestamp
-                #                 })
-                #             else:
-                #
-                #         else:
-                #             prep_attendance.create({
-                #                 'employee_id': employee.id,
-                #                 'check_in': attendance.timestamp,
-                #             })
-
-
 class PreparedAttendance(models.Model):
     _name = 'prepared.attendance'
 
@@ -189,17 +154,19 @@ class PreparedAttendance(models.Model):
         for employee in employees:
             if employee.attendance_id:
                 # checked in employee
-                if employee.last_check_in and not employee.last_check_out:
-                    pass
-                    attendances = self.env['device.attendance'].search([('employee_code', '=', employee.attendance_id),('timestamp', '>', employee.last_check_in)])
+                if employee.biometric_last_check_in and not employee.biometric_last_check_out:
+                    # pass
+                    attendances = self.env['device.attendance'].search([('employee_code', '=', employee.attendance_id),('timestamp','>', employee.biometric_last_check_in)])
                     for attendance in attendances:
-                        diff = attendance.timestamp - employee.last_check_in
-                        print(diff)
+                        diff = (attendance.timestamp - employee.biometric_last_check_in).total_seconds() / 60
+                        if diff > employee.biometric_check_window:
+                            pass
+                            
 
                 #checked out employee
-                if employee.last_check_out and not employee.last_check_in:
+                if employee.biometric_last_check_out and not employee.biometric_last_check_in:
                     pass
-                if not employee.last_check_in and not employee.last_check_out:
+                if not employee.biometric_last_check_in and not employee.biometric_last_check_out:
                     pass
                     attendances = self.env['device.attendance'].search([('employee_code', '=', employee.attendance_id)])
                     for attendance in attendances:
@@ -207,13 +174,11 @@ class PreparedAttendance(models.Model):
                             'employee_id': employee.id,
                             'check_in': attendance.timestamp,
                         })
+                        employee.biometric_last_check_in = attendance.timestamp
 
 
 class HrAttendance(models.Model):
     _inherit = 'hr.attendance'
-
-    last_check_in = fields.Datetime()
-    last_check_out = fields.Datetime()
 
     @api.model
     def import_attendance(self):
