@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import datetime
+import logging
+
 import pytz
 import time
 from datetime import date
@@ -84,6 +86,7 @@ class BiometricDevices(models.Model):
         try:
             conn = device.connect()
             attendances = conn.get_attendance()
+            logging.info(attendances)
         except Exception as e:
             pass
             notification = {
